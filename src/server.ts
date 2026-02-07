@@ -4,7 +4,7 @@ import { Server } from "http";
 import dotenv from "dotenv";
 
 
-import { db } from "./config/db";
+import { db } from "./app/config/db";
 import { app } from "./app";
 
 let server: Server;
