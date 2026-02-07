@@ -1,15 +1,26 @@
 import { db } from "../../config/db";
+import { AppError } from "../../utils/helper/AppError";
 
 export class EmployeeService {
 
   static async create(data: any) {
-    const [emp] = await db("employees")
-      .insert(data)
-      .returning("*");
+  const exists = await db("employees")
+    .where({
+      name: data.name,
+      age: data.age,
+      date_of_birth: data.date_of_birth,
+    })
+    .first();
 
-    return emp;
+  if (exists) {
+    throw AppError.conflict("Employee already exists with same name, age, and date of birth");
   }
+  const [emp] = await db("employees")
+    .insert(data)
+    .returning("*");
 
+  return emp;
+}
 
   static async list(
     page: number,
