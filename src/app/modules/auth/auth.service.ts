@@ -1,32 +1,10 @@
 import { db } from "../../config/db";
-import { compare, hash } from "../../utils/hashPassWord";
+import { compare } from "../../utils/hashPassWord";
 import { AppError } from "../../utils/helper/AppError";
 import { signJwt } from "../../utils/jwt";
-import { LoginInput, RegisterInput } from "./auth.interface";
+import { LoginInput} from "./auth.interface";
 
 export class AuthService {
-
-  static async register(data: RegisterInput) {
-    const exists = await db("hr_users")
-      .where({ email: data.email })
-      .first();
-
-    if (exists) {
-      throw AppError.conflict("Email already exists");;
-    }
-
-    const passwordHash = await hash(data.password);
-
-    const [user] = await db("hr_users")
-      .insert({
-        name: data.name,
-        email: data.email,
-        password_hash: passwordHash,
-      })
-      .returning(["id", "email", "name"]);
-
-    return user;
-  }
   static async login(data: LoginInput) {
     const user = await db("hr_users")
       .where({ email: data.email })

@@ -1,21 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { AuthService } from "./auth.service";
 
-export async function register(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  try {
-    const user = await AuthService.register(req.body);
-    res.status(201).json({
-      message: "User registered successfully",
-      user,
-    });
-  } catch (error: any) {
-    return next(error); 
-  }
-}
 export async function login(
   req: Request,
   res: Response,
@@ -40,10 +25,4 @@ export async function login(
 }
 
 
-export function logout(_req: Request, res: Response) {
-  res.clearCookie(process.env.COOKIE_NAME!);
 
-  res.json({
-    message: "Logged out successfully",
-  });
-}

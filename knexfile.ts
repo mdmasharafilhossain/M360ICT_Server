@@ -15,11 +15,11 @@ const config: Knex.Config = {
   pool: { min: 2, max: 10 },
 
   migrations: {
-    directory: "./src/database/migrations"
+    directory: "./src/app/database/migrations"
   },
 
   seeds: {
-    directory: "./src/database/seeds"
+    directory: "./src/app/database/seeds"
   }
 };
 
