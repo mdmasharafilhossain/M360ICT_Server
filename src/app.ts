@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 
 import authRoutes from "./app/modules/auth/auth.routes";
+import employeeRoutes from "./app/modules/employee/employee.routes";
 
 dotenv.config();
 
@@ -28,7 +29,7 @@ app.use(
 
 
 app.use("/auth", authRoutes);
-// app.use("/employees", employeeRoutes);
+app.use("/employees", employeeRoutes);
 // app.use("/attendance", attendanceRoutes);
 // app.use("/reports", reportRoutes);
 
