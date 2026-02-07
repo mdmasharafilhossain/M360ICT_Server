@@ -3,59 +3,44 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 
-// import { auth } from "./middlewares/auth.middleware";
-// import { upload } from "./middlewares/upload.middleware";
-// import { validate } from "./middlewares/validate.middleware";
-
-// import { login } from "./modules/auth/auth.controller";
-// import { loginSchema } from "./modules/auth/auth.schema";
-
-// import * as emp from "./modules/employee/employee.controller";
-// import * as att from "./modules/attendance/attendance.controller";
-// import * as rep from "./modules/report/report.controller";
+import authRoutes from "./app/modules/auth/auth.routes";
 
 dotenv.config();
 
-export const app = express();
+const app = express();
 
-app.use(cors({ origin: true, credentials: true }));
+
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 app.use(cookieParser());
 
-/* Auth */
-// app.post("/auth/login", validate(loginSchema), login);
 
-// /* Employees */
-// app.get("/employees", auth, emp.list);
-// app.get("/employees/:id", auth, emp.getOne);
+app.use(
+  "/uploads",
+  express.static(process.env.UPLOAD_PATH!)
+);
 
-// app.post(
-//   "/employees",
-//   auth,
-//   upload.single("photo"),
-//   emp.create
-// );
 
-// app.put(
-//   "/employees/:id",
-//   auth,
-//   upload.single("photo"),
-//   emp.update
-// );
+app.use("/auth", authRoutes);
+// app.use("/employees", employeeRoutes);
+// app.use("/attendance", attendanceRoutes);
+// app.use("/reports", reportRoutes);
 
-// app.delete("/employees/:id", auth, emp.remove);
 
-// /* Attendance */
-// app.get("/attendance", auth, att.list);
-// app.get("/attendance/:id", auth, att.getOne);
+app.get("/health", (_, res) => {
+  res.json({ status: "OK" });
+});
 
-// app.post("/attendance", auth, att.upsert);
-// app.put("/attendance/:id", auth, att.update);
-// app.delete("/attendance/:id", auth, att.remove);
+app.use((_, res) => {
+  res.status(404).json({
+    message: "Route not found",
+  });
+});
 
-// /* Report */
-// app.get(
-//   "/reports/attendance",
-//   auth,
-//   rep.attendanceReport
-// );
+export default app;

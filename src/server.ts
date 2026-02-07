@@ -5,7 +5,8 @@ import dotenv from "dotenv";
 
 
 import { db } from "./app/config/db";
-import { app } from "./app";
+import app from "./app";
+
 
 let server: Server;
 
