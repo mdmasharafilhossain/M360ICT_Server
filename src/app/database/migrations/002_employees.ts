@@ -1,22 +1,22 @@
 import { Knex } from "knex";
 export async function up(knex: Knex) {
-  await knex.schema.createTable("employees", (t) => {
-    t.increments("id");
+  await knex.schema.createTable("employees", (table) => {
+    table.increments("id");
 
-    t.string("name").notNullable();
-    t.integer("age").notNullable();
-    t.string("designation").notNullable();
+    table.string("name").notNullable();
+    table.integer("age").notNullable();
+    table.string("designation").notNullable();
 
-    t.date("hiring_date").notNullable();
-    t.date("date_of_birth").notNullable();
+    table.date("hiring_date").notNullable();
+    table.date("date_of_birth").notNullable();
 
-    t.decimal("salary").notNullable();
+    table.decimal("salary").notNullable();
 
-    t.string("photo_path");
+    table.string("photo_path");
 
-    t.timestamp("deleted_at");
+    table.timestamp("deleted_at");
 
-    t.timestamps(true, true);
+    table.timestamps(true, true);
   });
 }
 export async function down(knex: Knex) {
