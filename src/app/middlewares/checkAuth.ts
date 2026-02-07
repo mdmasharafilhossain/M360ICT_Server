@@ -9,11 +9,9 @@ export function checkAuth(
   next: NextFunction
 ) {
   const token = req.cookies[process.env.COOKIE_NAME!];
-
   if (!token) {
     return next(AppError.unauthorized("Unauthorized"));
   }
-
   try {
     const decoded = verifyJwt(token);
     req.user = decoded;
