@@ -63,9 +63,12 @@ export class EmployeeService {
   }
 
 
-  static async delete(id: number) {
-    await db("employees")
-      .where({ id })
-      .update({ deleted_at: new Date() });
-  }
+  static async delete(id: number): Promise<boolean> {
+  const count = await db("employees")
+    .where({ id, deleted_at: null }) 
+    .update({ deleted_at: new Date() });
+
+  return count > 0;
+}
+
 }

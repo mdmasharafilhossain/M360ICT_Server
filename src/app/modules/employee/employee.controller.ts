@@ -9,13 +9,21 @@ export async function create(
   try {
     const data = req.body;
 
+    if (!req.file && Object.keys(data).length === 0) {
+      return next(AppError.badRequest("Employee data is required"));
+    }
+
     if (req.file) {
+      if (!req.file.mimetype.startsWith("image/")) {
+        return next(AppError.badRequest("Only image files are allowed"));
+      }
+
       data.photo_path = req.file.filename;
     }
 
-    const emp = await EmployeeService.create(data);
+    const createEmployee = await EmployeeService.create(data);
 
-    res.status(201).json(emp);
+    res.status(201).json(createEmployee);
   } catch (error) {
     return next(error);
   }
@@ -29,9 +37,9 @@ export async function list(
     const page = Number(req.query.page) || 1;
     const search = req.query.search as string;
 
-    const data = await EmployeeService.list(page, search);
+    const listOfAllEmployee = await EmployeeService.list(page, search);
 
-    res.json(data);
+    res.json(listOfAllEmployee);
   } catch (error) {
     return next(error);
   }
@@ -42,15 +50,15 @@ export async function getOne(
   next: NextFunction
 ) {
   try {
-    const emp = await EmployeeService.getById(
+    const findEmployeeById = await EmployeeService.getById(
       Number(req.params.id)
     );
 
-    if (!emp) {
+    if (!findEmployeeById) {
       return next(AppError.notFound("Employee not found"));
     }
 
-    res.json(emp);
+    res.json(findEmployeeById);
   } catch (error) {
     return next(error);
   }
@@ -61,16 +69,25 @@ export async function update(
   next: NextFunction
 ) {
   try {
-    const data = req.body;
+    const id = Number(req.params.id);
 
-    if (req.file) {
-      data.photo_path = req.file.filename;
+    if (!id || isNaN(id)) {
+      return next(AppError.badRequest("Invalid employee ID"));
     }
 
-    const emp = await EmployeeService.update(
-      Number(req.params.id),
-      data
-    );
+    const data = req.body;
+
+    if (!req.file && Object.keys(data).length === 0) {
+      return next(AppError.badRequest("No data provided for update"));
+    }
+
+    if (req.file) {
+      if (!req.file.mimetype.startsWith("image/")) {
+        return next(AppError.badRequest("Only image files are allowed"));
+      }
+      data.photo_path = req.file.filename;
+    }
+    const emp = await EmployeeService.update(id, data);
 
     if (!emp) {
       return next(AppError.notFound("Employee not found"));
@@ -87,11 +104,19 @@ export async function remove(
   next: NextFunction
 ) {
   try {
-    await EmployeeService.delete(
-      Number(req.params.id)
-    );
+    const id = Number(req.params.id);
 
-    res.json({ message: "Deleted" });
+    if (!id || isNaN(id)) {
+      return next(AppError.badRequest("Invalid employee ID"));
+    }
+
+    const deleted = await EmployeeService.delete(id);
+
+    if (!deleted) {
+      return next(AppError.notFound("Employee not found"));
+    }
+
+    res.json({ message: "Deleted successfully" });
   } catch (error) {
     return next(error);
   }
