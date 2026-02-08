@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./app/modules/auth/auth.routes";
 import employeeRoutes from "./app/modules/employee/employee.routes";
 import attendanceRoutes from "./app/modules/attendance/attendance.routes";
+import reportRoutes from "./app/modules/report/report.routes";
 dotenv.config();
 
 const app = express();
@@ -31,7 +32,7 @@ app.use(
 app.use("/auth", authRoutes);
 app.use("/employees", employeeRoutes);
 app.use("/attendance", attendanceRoutes);
-// app.use("/reports", reportRoutes);
+app.use("/reports", reportRoutes);
 
 
 app.get("/health", (_, res) => {
