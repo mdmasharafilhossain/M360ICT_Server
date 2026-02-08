@@ -18,9 +18,7 @@ export function globalErrorHandler(
 
   if (err instanceof Joi.ValidationError) {
     statusCode = 400;
-    message = err.details
-      .map((d) => d.message)
-      .join(", ");
+    message = err.details.map((d) => d.message).join(", ");
   }
 
   if (err.code === "23505") {

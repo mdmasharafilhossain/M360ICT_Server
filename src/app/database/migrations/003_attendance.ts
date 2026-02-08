@@ -3,8 +3,7 @@ export async function up(knex: Knex) {
   await knex.schema.createTable("attendance", (t) => {
     t.increments("id");
 
-    t
-      .integer("employee_id")
+    t.integer("employee_id")
       .references("id")
       .inTable("employees")
       .onDelete("CASCADE");

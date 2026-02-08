@@ -2,12 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { AttendanceService } from "./attendance.service";
 import { AppError } from "../../utils/helper/AppError";
 
-
-export async function list(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export async function list(req: Request, res: Response, next: NextFunction) {
   try {
     const data = await AttendanceService.list(req.query);
 
@@ -17,11 +12,7 @@ export async function list(
   }
 }
 
-export async function getOne(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export async function getOne(req: Request, res: Response, next: NextFunction) {
   try {
     const id = Number(req.params.id);
 
@@ -41,11 +32,7 @@ export async function getOne(
   }
 }
 
-export async function upsert(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export async function upsert(req: Request, res: Response, next: NextFunction) {
   try {
     if (!req.body || Object.keys(req.body).length === 0) {
       return next(AppError.badRequest("Attendance data is required"));
@@ -59,11 +46,7 @@ export async function upsert(
   }
 }
 
-export async function update(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export async function update(req: Request, res: Response, next: NextFunction) {
   try {
     const id = Number(req.params.id);
 
@@ -87,11 +70,7 @@ export async function update(
   }
 }
 
-export async function remove(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export async function remove(req: Request, res: Response, next: NextFunction) {
   try {
     const id = Number(req.params.id);
 

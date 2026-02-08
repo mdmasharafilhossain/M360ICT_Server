@@ -1,18 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { AuthService } from "./auth.service";
 
-export async function login(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export async function login(req: Request, res: Response, next: NextFunction) {
   try {
-    const { token, user } =
-      await AuthService.login(req.body);
+    const { token, user } = await AuthService.login(req.body);
     res.cookie(process.env.COOKIE_NAME!, token, {
       httpOnly: true,
       sameSite: "none",
-      secure: true, 
+      secure: true,
     });
 
     res.json({
@@ -23,6 +18,3 @@ export async function login(
     return next(error);
   }
 }
-
-
-

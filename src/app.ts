@@ -10,7 +10,6 @@ import reportRoutes from "./app/modules/report/report.routes";
 import { globalErrorHandler } from "./app/middlewares/globalErrorHandler";
 import { AppError } from "./app/utils/helper/AppError";
 
-
 dotenv.config();
 
 const app = express();
@@ -30,10 +29,7 @@ if (!process.env.UPLOAD_PATH) {
   throw new Error("UPLOAD_PATH is not defined");
 }
 
-app.use(
-  "/uploads",
-  express.static(process.env.UPLOAD_PATH)
-);
+app.use("/uploads", express.static(process.env.UPLOAD_PATH));
 
 app.use("/auth", authRoutes);
 app.use("/employees", employeeRoutes);

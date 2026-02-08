@@ -12,11 +12,7 @@ router.use(checkAuth);
 router.get("/", controller.list);
 router.get("/:id", controller.getOne);
 
-router.post(
-  "/",
-  validate(attendanceSchema),
-  controller.upsert
-);
+router.post("/", validate(attendanceSchema), controller.upsert);
 
 router.put("/:id", controller.update);
 router.delete("/:id", controller.remove);
