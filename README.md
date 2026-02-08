@@ -128,7 +128,7 @@ npm install -g knex
 ```bash
 git clone https://github.com/mdmasharafilhossain/M360ICT_Server
 cd M360ICT_Server
-npm install
+npm install -f
 ```
 
 ### 2️⃣ Setup Environment Variables:
