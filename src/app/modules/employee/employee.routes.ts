@@ -2,11 +2,7 @@ import { Router } from "express";
 
 import * as controller from "./employee.controller";
 
-
-import {
-  createEmployeeSchema,
-  updateEmployeeSchema,
-} from "./employee.schema";
+import { createEmployeeSchema, updateEmployeeSchema } from "./employee.schema";
 import { checkAuth } from "../../middlewares/checkAuth";
 import { upload } from "../../middlewares/upload";
 import { validate } from "../../middlewares/validate";

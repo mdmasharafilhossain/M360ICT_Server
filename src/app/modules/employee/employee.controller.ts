@@ -1,11 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { EmployeeService } from "./employee.service";
 import { AppError } from "../../utils/helper/AppError";
-export async function create(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export async function create(req: Request, res: Response, next: NextFunction) {
   try {
     const data = req.body;
 
@@ -28,11 +24,7 @@ export async function create(
     return next(error);
   }
 }
-export async function list(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export async function list(req: Request, res: Response, next: NextFunction) {
   try {
     const page = Number(req.query.page) || 1;
     const search = req.query.search as string;
@@ -44,11 +36,7 @@ export async function list(
     return next(error);
   }
 }
-export async function getOne(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export async function getOne(req: Request, res: Response, next: NextFunction) {
   try {
     const findEmployeeById = await EmployeeService.getById(
       Number(req.params.id)
@@ -63,11 +51,7 @@ export async function getOne(
     return next(error);
   }
 }
-export async function update(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export async function update(req: Request, res: Response, next: NextFunction) {
   try {
     const id = Number(req.params.id);
 
@@ -98,11 +82,7 @@ export async function update(
     return next(error);
   }
 }
-export async function remove(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export async function remove(req: Request, res: Response, next: NextFunction) {
   try {
     const id = Number(req.params.id);
 

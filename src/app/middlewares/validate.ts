@@ -6,8 +6,7 @@ export function validate(schema: Joi.ObjectSchema) {
   return (req: Request, _res: Response, next: NextFunction) => {
     const { error } = schema.validate(req.body);
 
-    if (error)
-      return next(AppError.badRequest(error.message));
+    if (error) return next(AppError.badRequest(error.message));
 
     next();
   };
