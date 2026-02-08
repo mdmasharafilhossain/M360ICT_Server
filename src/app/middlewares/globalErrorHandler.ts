@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response, NextFunction } from "express";
 import Joi from "joi";
 import { AppError } from "../utils/helper/AppError";

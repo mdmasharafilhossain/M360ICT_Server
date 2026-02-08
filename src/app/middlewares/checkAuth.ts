@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Request, Response, NextFunction } from "express";
 import { verifyJwt } from "../utils/jwt";
 import { AppError } from "../utils/helper/AppError";
