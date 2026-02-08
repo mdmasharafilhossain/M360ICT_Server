@@ -40,8 +40,10 @@ app.get("/health", (_, res) => {
   res.json({ status: "OK" });
 });
 
-app.all("*", (req, _res, next) => {
-  next(AppError.notFound(`Route ${req.originalUrl} not found`));
+app.use((_req, res) => {
+  res.status(404).json({
+    message: "Route not found",
+  });
 });
 
 app.use(globalErrorHandler);

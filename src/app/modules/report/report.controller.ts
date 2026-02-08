@@ -8,7 +8,7 @@ export async function attendanceReport(
   next: NextFunction
 ) {
   try {
-    const month = req.query.month as string;
+    const month = (req.query.month as string)?.trim();
 
     if (!month) {
       return next(AppError.badRequest("Month is required"));
