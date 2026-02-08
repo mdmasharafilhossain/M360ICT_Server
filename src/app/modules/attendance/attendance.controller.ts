@@ -6,7 +6,10 @@ export async function list(req: Request, res: Response, next: NextFunction) {
   try {
     const attendanceRecords = await AttendanceService.list(req.query);
 
-    res.json(attendanceRecords);
+    res.status(200).json({
+      status: "success",
+      data: attendanceRecords,
+    });
   } catch (error) {
     return next(error);
   }
@@ -26,7 +29,10 @@ export async function getOne(req: Request, res: Response, next: NextFunction) {
       return next(AppError.notFound("Attendance record not found"));
     }
 
-    res.json(attendanceRecord);
+    res.status(200).json({
+      status: "success",
+      data: attendanceRecord,
+    });
   } catch (error) {
     return next(error);
   }
@@ -40,7 +46,10 @@ export async function upsert(req: Request, res: Response, next: NextFunction) {
 
     const upsertResult = await AttendanceService.upsert(req.body);
 
-    res.json(upsertResult);
+    res.status(200).json({
+      status: "success",
+      data: upsertResult,
+    });
   } catch (error) {
     return next(error);
   }
@@ -64,7 +73,12 @@ export async function update(req: Request, res: Response, next: NextFunction) {
       return next(AppError.notFound("Attendance record not found"));
     }
 
-    res.json({ message: "Updated" });
+    res.status(200).json({
+      status: "success",
+      data: {
+        message: "Updated",
+      },
+    });
   } catch (error) {
     return next(error);
   }
@@ -84,7 +98,12 @@ export async function remove(req: Request, res: Response, next: NextFunction) {
       return next(AppError.notFound("Attendance record not found"));
     }
 
-    res.json({ message: "Deleted" });
+    res.status(200).json({
+      status: "success",
+      data: {
+        message: "Deleted",
+      },
+    });
   } catch (error) {
     return next(error);
   }

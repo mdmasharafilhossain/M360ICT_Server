@@ -19,7 +19,10 @@ export async function create(req: Request, res: Response, next: NextFunction) {
 
     const createEmployee = await EmployeeService.create(data);
 
-    res.status(201).json(createEmployee);
+    res.status(201).json({
+      status: "success",
+      data: createEmployee,
+    });
   } catch (error) {
     return next(error);
   }
@@ -31,7 +34,10 @@ export async function list(req: Request, res: Response, next: NextFunction) {
 
     const listOfAllEmployee = await EmployeeService.list(page, search);
 
-    res.json(listOfAllEmployee);
+    res.status(201).json({
+      status: "success",
+      data: listOfAllEmployee,
+    });
   } catch (error) {
     return next(error);
   }
@@ -46,7 +52,10 @@ export async function getOne(req: Request, res: Response, next: NextFunction) {
       return next(AppError.notFound("Employee not found"));
     }
 
-    res.json(findEmployeeById);
+    res.status(201).json({
+      status: "success",
+      data: findEmployeeById,
+    });
   } catch (error) {
     return next(error);
   }
@@ -71,13 +80,16 @@ export async function update(req: Request, res: Response, next: NextFunction) {
       }
       data.photo_path = req.file.filename;
     }
-    const emp = await EmployeeService.update(id, data);
+    const UpdateEmployee = await EmployeeService.update(id, data);
 
-    if (!emp) {
+    if (!UpdateEmployee) {
       return next(AppError.notFound("Employee not found"));
     }
 
-    res.json(emp);
+    res.status(200).json({
+      status: "success",
+      data: UpdateEmployee,
+    });
   } catch (error) {
     return next(error);
   }
@@ -96,7 +108,12 @@ export async function remove(req: Request, res: Response, next: NextFunction) {
       return next(AppError.notFound("Employee not found"));
     }
 
-    res.json({ message: "Deleted successfully" });
+    res.status(200).json({
+      status: "success",
+      data: {
+        message: "Deleted successfully",
+      },
+    });
   } catch (error) {
     return next(error);
   }

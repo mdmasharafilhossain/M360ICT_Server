@@ -28,7 +28,16 @@ export async function attendanceReport(
 
     const attendanceSummary = await ReportService.attendance(month, employeeId);
 
-    res.json(attendanceSummary);
+    if (!attendanceSummary || attendanceSummary.length === 0) {
+      return next(
+        AppError.notFound(`No attendance records found for ${month}`)
+      );
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: attendanceSummary,
+    });
   } catch (error) {
     return next(error);
   }
