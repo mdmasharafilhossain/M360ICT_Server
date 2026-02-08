@@ -1,63 +1,72 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { db } from "../../config/db";
 import { AppError } from "../../utils/helper/AppError";
 
 export class EmployeeService {
-  static async create(data: any) {
-    const exists = await db("employees")
+  static async create(employeeData: any) {
+    const existingEmployee = await db("employees")
       .where({
-        name: data.name,
-        age: data.age,
-        date_of_birth: data.date_of_birth,
+        name: employeeData.name,
+        age: employeeData.age,
+        date_of_birth: employeeData.date_of_birth,
       })
       .first();
 
-    if (exists) {
+    if (existingEmployee) {
       throw AppError.conflict(
         "Employee already exists with same name, age, and date of birth"
       );
     }
-    const [emp] = await db("employees").insert(data).returning("*");
 
-    return emp;
+    const [createdEmployee] = await db("employees")
+      .insert(employeeData)
+      .returning("*");
+
+    return createdEmployee;
   }
 
-  static async list(page: number, search?: string) {
+  static async list(page: number, searchTerm?: string) {
     const limit = 10;
     const offset = (page - 1) * limit;
 
-    const q = db("employees")
+    const queryBuilder = db("employees")
       .whereNull("deleted_at")
       .limit(limit)
       .offset(offset);
 
-    if (search) {
-      q.whereILike("name", `%${search}%`);
+    if (searchTerm) {
+      queryBuilder.whereILike("name", `%${searchTerm}%`);
     }
 
-    return q;
+    return queryBuilder;
   }
 
-  static async getById(id: number) {
-    return db("employees").where({ id }).whereNull("deleted_at").first();
+  static async getById(employeeId: number) {
+    return db("employees")
+      .where({ id: employeeId })
+      .whereNull("deleted_at")
+      .first();
   }
 
-  static async update(id: number, data: any) {
-    const [emp] = await db("employees")
-      .where({ id })
-      .update({
-        ...data,
-        updated_at: new Date(),
-      })
-      .returning("*");
+  static async update(employeeId: number, employeeData: any) {
+    const [updatedEmployee] = await db("employees")
+      .where({ id: employeeId })
+      .update(
+        {
+          ...employeeData,
+          updated_at: new Date(),
+        },
+        "*"
+      );
 
-    return emp;
+    return updatedEmployee;
   }
 
-  static async delete(id: number): Promise<boolean> {
-    const count = await db("employees")
-      .where({ id, deleted_at: null })
+  static async delete(employeeId: number): Promise<boolean> {
+    const affectedRows = await db("employees")
+      .where({ id: employeeId, deleted_at: null })
       .update({ deleted_at: new Date() });
 
-    return count > 0;
+    return affectedRows > 0;
   }
 }

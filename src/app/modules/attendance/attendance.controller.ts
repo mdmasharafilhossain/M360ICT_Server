@@ -4,9 +4,9 @@ import { AppError } from "../../utils/helper/AppError";
 
 export async function list(req: Request, res: Response, next: NextFunction) {
   try {
-    const data = await AttendanceService.list(req.query);
+    const attendanceRecords = await AttendanceService.list(req.query);
 
-    res.json(data);
+    res.json(attendanceRecords);
   } catch (error) {
     return next(error);
   }
@@ -14,19 +14,19 @@ export async function list(req: Request, res: Response, next: NextFunction) {
 
 export async function getOne(req: Request, res: Response, next: NextFunction) {
   try {
-    const id = Number(req.params.id);
+    const attendanceId = Number(req.params.id);
 
-    if (!id || isNaN(id)) {
+    if (!attendanceId || isNaN(attendanceId)) {
       return next(AppError.badRequest("Invalid attendance ID"));
     }
 
-    const data = await AttendanceService.getById(id);
+    const attendanceRecord = await AttendanceService.getById(attendanceId);
 
-    if (!data) {
+    if (!attendanceRecord) {
       return next(AppError.notFound("Attendance record not found"));
     }
 
-    res.json(data);
+    res.json(attendanceRecord);
   } catch (error) {
     return next(error);
   }
@@ -38,9 +38,9 @@ export async function upsert(req: Request, res: Response, next: NextFunction) {
       return next(AppError.badRequest("Attendance data is required"));
     }
 
-    const result = await AttendanceService.upsert(req.body);
+    const upsertResult = await AttendanceService.upsert(req.body);
 
-    res.json(result);
+    res.json(upsertResult);
   } catch (error) {
     return next(error);
   }
@@ -48,9 +48,9 @@ export async function upsert(req: Request, res: Response, next: NextFunction) {
 
 export async function update(req: Request, res: Response, next: NextFunction) {
   try {
-    const id = Number(req.params.id);
+    const attendanceId = Number(req.params.id);
 
-    if (!id || isNaN(id)) {
+    if (!attendanceId || isNaN(attendanceId)) {
       return next(AppError.badRequest("Invalid attendance ID"));
     }
 
@@ -58,9 +58,9 @@ export async function update(req: Request, res: Response, next: NextFunction) {
       return next(AppError.badRequest("Update data is required"));
     }
 
-    const updated = await AttendanceService.update(id, req.body);
+    const isUpdated = await AttendanceService.update(attendanceId, req.body);
 
-    if (!updated) {
+    if (!isUpdated) {
       return next(AppError.notFound("Attendance record not found"));
     }
 
@@ -72,15 +72,15 @@ export async function update(req: Request, res: Response, next: NextFunction) {
 
 export async function remove(req: Request, res: Response, next: NextFunction) {
   try {
-    const id = Number(req.params.id);
+    const attendanceId = Number(req.params.id);
 
-    if (!id || isNaN(id)) {
+    if (!attendanceId || isNaN(attendanceId)) {
       return next(AppError.badRequest("Invalid attendance ID"));
     }
 
-    const deleted = await AttendanceService.delete(id);
+    const isDeleted = await AttendanceService.delete(attendanceId);
 
-    if (!deleted) {
+    if (!isDeleted) {
       return next(AppError.notFound("Attendance record not found"));
     }
 

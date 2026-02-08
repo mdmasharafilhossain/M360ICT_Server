@@ -2,15 +2,15 @@ import { db } from "../../config/db";
 
 export class ReportService {
   static async attendance(month: string, employeeId?: number) {
-    const q = db("attendance as a")
+    const queryBuilder = db("attendance as a")
       .join("employees as e", "a.employee_id", "e.id")
       .whereRaw("to_char(a.date,'YYYY-MM')=?", [month]);
 
     if (employeeId) {
-      q.where("e.id", employeeId);
+      queryBuilder.where("e.id", employeeId);
     }
 
-    return q
+    return queryBuilder
       .groupBy("e.id", "e.name")
       .select("e.id", "e.name")
       .count("a.id as days_present")

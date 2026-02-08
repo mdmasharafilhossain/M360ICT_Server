@@ -133,7 +133,7 @@ npm install
 
 ### 2️⃣ Setup Environment Variables:
 
-Create .env (in root) file using .env.example:
+Create .env file using .env.example:
 
 ```bash
 PORT=5000

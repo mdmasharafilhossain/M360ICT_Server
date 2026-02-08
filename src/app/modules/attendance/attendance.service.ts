@@ -2,62 +2,69 @@
 import { db } from "../../config/db";
 
 export class AttendanceService {
-  static async list(filters: any) {
-    const page = Number(filters.page) || 1;
+  static async list(queryFilters: any) {
+    const page = Number(queryFilters.page) || 1;
     const limit = 10;
     const offset = (page - 1) * limit;
 
-    const q = db("attendance").limit(limit).offset(offset);
+    const queryBuilder = db("attendance").limit(limit).offset(offset);
 
-    if (filters.employee_id) {
-      q.where("employee_id", filters.employee_id);
+    if (queryFilters.employee_id) {
+      queryBuilder.where("employee_id", queryFilters.employee_id);
     }
 
-    if (filters.date) {
-      q.where("date", filters.date);
+    if (queryFilters.date) {
+      queryBuilder.where("date", queryFilters.date);
     }
 
-    if (filters.from && filters.to) {
-      q.whereBetween("date", [filters.from, filters.to]);
+    if (queryFilters.from && queryFilters.to) {
+      queryBuilder.whereBetween("date", [queryFilters.from, queryFilters.to]);
     }
 
-    return q;
+    return queryBuilder;
   }
 
-  static async getById(id: number) {
-    return db("attendance").where({ id }).first();
+  static async getById(attendanceId: number) {
+    return db("attendance").where({ id: attendanceId }).first();
   }
 
-  static async upsert(data: any) {
-    const exists = await db("attendance")
+  static async upsert(attendanceData: any) {
+    const existingAttendance = await db("attendance")
       .where({
-        employee_id: data.employee_id,
-        date: data.date,
+        employee_id: attendanceData.employee_id,
+        date: attendanceData.date,
       })
       .first();
 
-    if (exists) {
-      await db("attendance").where({ id: exists.id }).update({
-        check_in_time: data.check_in_time,
+    if (existingAttendance) {
+      await db("attendance").where({ id: existingAttendance.id }).update({
+        check_in_time: attendanceData.check_in_time,
       });
 
       return { updated: true };
     }
 
-    await db("attendance").insert(data);
+    await db("attendance").insert(attendanceData);
 
     return { created: true };
   }
 
-  static async update(id: number, data: any): Promise<boolean> {
-    const count = await db("attendance").where({ id }).update(data);
+  static async update(
+    attendanceId: number,
+    attendanceData: any
+  ): Promise<boolean> {
+    const affectedRows = await db("attendance")
+      .where({ id: attendanceId })
+      .update(attendanceData);
 
-    return count > 0;
+    return affectedRows > 0;
   }
 
-  static async delete(id: number): Promise<boolean> {
-    const count = await db("attendance").where({ id }).del();
+  static async delete(attendanceId: number): Promise<boolean> {
+    const affectedRows = await db("attendance")
+      .where({ id: attendanceId })
+      .del();
 
-    return count > 0;
+    return affectedRows > 0;
   }
 }

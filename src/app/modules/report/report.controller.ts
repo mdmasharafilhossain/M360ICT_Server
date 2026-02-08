@@ -26,9 +26,9 @@ export async function attendanceReport(
       return next(AppError.badRequest("Invalid employee ID"));
     }
 
-    const data = await ReportService.attendance(month, employeeId);
+    const attendanceSummary = await ReportService.attendance(month, employeeId);
 
-    res.json(data);
+    res.json(attendanceSummary);
   } catch (error) {
     return next(error);
   }
