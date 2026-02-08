@@ -106,8 +106,10 @@ Built using **Node.js, Express.js, TypeScript, Knex.js, and PostgreSQL**, this A
 | `/reports/attendance` | GET    | Monthly attendance report |
 
 Query Example:
-`/reports/attendance?month=2025-08&employee_id=5`
-
+```bash
+/reports/attendance?month=2025-02&employee_id=5 
+/reports/attendance?month=2025-02
+````
 ## Setup Instructions
 
 ### Prerequisites
