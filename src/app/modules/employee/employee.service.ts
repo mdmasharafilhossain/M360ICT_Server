@@ -10,6 +10,7 @@ export class EmployeeService {
         age: employeeData.age,
         date_of_birth: employeeData.date_of_birth,
       })
+      .whereNull("deleted_at")
       .first();
 
     if (existingEmployee) {
