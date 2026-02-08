@@ -8,7 +8,6 @@ import employeeRoutes from "./app/modules/employee/employee.routes";
 import attendanceRoutes from "./app/modules/attendance/attendance.routes";
 import reportRoutes from "./app/modules/report/report.routes";
 import { globalErrorHandler } from "./app/middlewares/globalErrorHandler";
-import { AppError } from "./app/utils/helper/AppError";
 
 dotenv.config();
 
