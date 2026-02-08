@@ -2,12 +2,23 @@ import { db } from "../../config/db";
 
 export class AttendanceService {
   static async list(filters: any) {
-    const q = db("attendance");
+    const page = Number(filters.page) || 1;
+    const limit = 10;
+    const offset = (page - 1) * limit;
 
-    if (filters.employee_id) q.where("employee_id", filters.employee_id);
+    const q = db("attendance").limit(limit).offset(offset);
 
-    if (filters.from && filters.to)
+    if (filters.employee_id) {
+      q.where("employee_id", filters.employee_id);
+    }
+
+    if (filters.date) {
+      q.where("date", filters.date);
+    }
+
+    if (filters.from && filters.to) {
       q.whereBetween("date", [filters.from, filters.to]);
+    }
 
     return q;
   }
