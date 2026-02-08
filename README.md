@@ -165,8 +165,8 @@ CREATE DATABASE hr_db;
 4️⃣ Run Database Migrations & Seeds
 
 ```bash
-npx knex migrate:latest
-npx knex seed:run
+npm run migrate:latest
+npm run seed
 ```
 
 5️⃣ Start Development Server
