@@ -69,12 +69,9 @@ Built using **Node.js, Express.js, TypeScript, Knex.js, and PostgreSQL**, this A
 
 ### Authentication
 
-| Endpoint | Method | Description |
-| -------- | ------ | ----------- |
-
-|
-| `/auth/login` | POST | Login |
-|
+| Endpoint      | Method | Description |
+| ------------- | ------ | ----------- |
+| `/auth/login` | POST   | Login       |
 
 ---
 
